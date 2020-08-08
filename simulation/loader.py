@@ -132,6 +132,7 @@ class ScriptLoader:
 def runFromConfig(config, shared):
     from robot import initialise_bot, RobotInteractor
     sl = ScriptLoader(**config.get('loader', {}))
+    sl.startUp(**config.get('screen', {}))
     sl.setSharedData(shared)
     sl.active_scripts = []
     visual.utils.GLOBAL_COLOURS = config.get('colours', {})
@@ -143,7 +144,6 @@ def runFromConfig(config, shared):
         except Exception as exc:
             print(f"Failed to load interactor with the following options: {opt}. Got error: {exc}")
     if sl.active_scripts:
-        sl.startUp(**config.get('screen', {}))
         sl.loadElements(config.get('elements', []))
         for interactor in sl.active_scripts:
             if isinstance(interactor, RobotInteractor):
